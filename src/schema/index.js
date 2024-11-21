@@ -1,6 +1,5 @@
 import { logger } from '../utils/logger.js'
 
-import { createUsertable } from './users/user.schema.js'
 import { createCarttable } from './cart/cart.schema.js'
 import { socialprofiletable } from './social/social.schema.js'
 import { createAddresstable } from './address/address.schema.js'
@@ -12,7 +11,6 @@ import { createCartItemtable } from './cart/cart_item_schema.js'
 
 export const createAlltables = async () => {
     try {
-        await createUsertable()
         await socialprofiletable()
         await createAddresstable()
         await createProductable()
