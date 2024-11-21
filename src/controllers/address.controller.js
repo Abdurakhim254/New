@@ -39,7 +39,7 @@ export const Updateaddresscon=async(req,res)=>{
         const {id}=req.params
         const {user_id,title,created_at,address_line_1,address_line_2,country,city,postal_code,phone_number,landmark}=req.body
         const result=await updateaddressByid(user_id,title,created_at,address_line_1,address_line_2,country,city,postal_code,phone_number,landmark,id)
-
+        res.status(200).send(result)
     } catch (error) {
         logger.error(error.message)
         res.status(400).send(error.message)
