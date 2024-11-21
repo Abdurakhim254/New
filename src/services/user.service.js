@@ -1,8 +1,8 @@
-import knex from '../Database/index.js'
+import db from '../database/index.js'
 
 export const getusers = async () => {
-    const users = await knex('users').select('*')
-    if (users.length >= 1) {
+    const users = await db('users').select()
+    if (users) {
         return users
     } else {
         return 'Userlar topilmadi'
@@ -10,7 +10,7 @@ export const getusers = async () => {
 }
 
 export const getuserbyemail = async (email) => {
-    const user = await knex('users').where({ email }).first()
+    const user = await db('users').where({ email }).first()
     if (user) {
         return user
     } else {
@@ -19,9 +19,9 @@ export const getuserbyemail = async (email) => {
 }
 
 export const deleteuserbyemail = async (email) => {
-    const user = await knex('users').where({ email }).first()
+    const user = await db('users').where({ email }).first()
     if (user) {
-        await knex('users').where({ email }).del()
+        await db('users').where({ email }).del()
         return "User o'chirildi"
     } else {
         return "O'chiriladigan User topilmadi"
@@ -39,9 +39,9 @@ export const updateuser = async ({
     username,
     email,
 }) => {
-    const user = await knex('users').where({ email }).first()
+    const user = await db('users').where({ email }).first()
     if (user) {
-        await knex('users').where({ email }).update({
+        await db('users').where({ email }).update({
             role,
             is_active,
             password,

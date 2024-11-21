@@ -1,9 +1,10 @@
-import { logger } from "../../utils/logger.js"
-import { pool } from "../../Database/index.js"
+import pool from '../../database/index.js'
+import { logger } from '../../utils/logger.js'
+
 export const createAddresstable = async () => {
     try {
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS address(
+            CREATE TABLE IF NOT EXISTS address(
                 id serial primary key,
                 user_id int,foreign key(user_id) references users(id),
                 title varchar  not null,
@@ -15,12 +16,11 @@ export const createAddresstable = async () => {
                 postal_code varchar,
                 phone_number varchar,
                 landmark varchar not null
-                )
-                `)
-        logger.info("Address Table  yaratildi")
+            )
+        `)
+        logger.info('Address Table  yaratildi')
     } catch (error) {
-        logger.error(error.message)
+        logger.error(error)
+        return error
     }
 }
-
-// await createAddresstable()

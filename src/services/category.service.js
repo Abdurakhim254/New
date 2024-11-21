@@ -1,8 +1,9 @@
+import db from '../database/index.js'
 import { logger } from '../utils/logger.js'
 
 export const getCategoryes = async () => {
     try {
-        const result = await knex('category').select('*')
+        const result = await db('category').select()
         if (result.rows.length >= 1) {
             return result.rows
         } else {
@@ -16,7 +17,7 @@ export const getCategoryes = async () => {
 
 export const getcategorybyid = async (id) => {
     try {
-        const result = await knex('category').where({ id }).first()
+        const result = await db('category').where({ id }).first()
         if (result.rows.length >= 1) {
             return result.rows
         } else {
@@ -36,7 +37,7 @@ export const createCategory = async ({
     updated_at,
 }) => {
     try {
-        await knex('category').insert({
+        await db('category').insert({
             name,
             description,
             tag,
@@ -60,10 +61,10 @@ export const updatecategory = async ({
     id,
 }) => {
     try {
-        const result = await knex('category').where({ id }).first()
+        const result = await db('category').where({ id }).first()
 
         if (result.rows.length >= 1) {
-            await knex('category').where({ id }).update({
+            await db('category').where({ id }).update({
                 name,
                 description,
                 tag,
@@ -83,10 +84,10 @@ export const updatecategory = async ({
 
 export const deletecategory = async (id) => {
     try {
-        const result = await knex('category').where({ id }).first()
+        const result = await db('category').where({ id }).first()
 
         if (result.rows[0]) {
-            await knex('category').where({ id }).del()
+            await db('category').where({ id }).del()
             return "Category o'chirildi"
         }
 
