@@ -1,24 +1,35 @@
-import knex from "../Database/index.js";
+import db from '../database/index.js'
 
 export const getaddresses = async () => {
-    const addresses = await knex("address").select("*");
+    const addresses = await db('address').select('*')
     if (addresses.length >= 1) {
-        return addresses;
+        return addresses
     } else {
-        return "Addreslar topilmadi";
+        return 'Addreslar topilmadi'
     }
-};
+}
 
 export const getaddressByid = async (id) => {
-    const address = await knex("address").where({ id }).first();
+    const address = await db('address').where({ id }).first()
     if (address) {
-        return address;
+        return address
     } else {
-        return "Address topilmadi";
+        return 'Address topilmadi'
     }
-};
+}
 
-export const createaddress = async (user_id, title, created_at, address_line_1, address_line_2, country, city, postal_code, phone_number, landmark) => {
+export const createaddress = async (
+    user_id,
+    title,
+    created_at,
+    address_line_1,
+    address_line_2,
+    country,
+    city,
+    postal_code,
+    phone_number,
+    landmark,
+) => {
     const addressData = {
         user_id,
         title,
@@ -29,21 +40,33 @@ export const createaddress = async (user_id, title, created_at, address_line_1, 
         postal_code,
         phone_number,
         landmark,
-    };
-
-    if (created_at) {
-        addressData.created_at = created_at;
     }
 
-    await knex("address").insert(addressData);
-    return "Address yaratildi";
-};
+    if (created_at) {
+        addressData.created_at = created_at
+    }
 
-export const updateaddressByid = async (user_id, title, created_at, address_line_1, address_line_2, country, city, postal_code, phone_number, landmark, id) => {
-    const existingAddress = await knex("address").where({ id }).first();
+    await db('address').insert(addressData)
+    return 'Address yaratildi'
+}
+
+export const updateaddressByid = async (
+    user_id,
+    title,
+    created_at,
+    address_line_1,
+    address_line_2,
+    country,
+    city,
+    postal_code,
+    phone_number,
+    landmark,
+    id,
+) => {
+    const existingAddress = await db('address').where({ id }).first()
 
     if (!existingAddress) {
-        return "Yangilanadigan Address topilmadi";
+        return 'Yangilanadigan Address topilmadi'
     }
 
     const updateData = {
@@ -56,23 +79,23 @@ export const updateaddressByid = async (user_id, title, created_at, address_line
         postal_code,
         phone_number,
         landmark,
-    };
+    }
 
     if (created_at) {
-        updateData.created_at = created_at;
+        updateData.created_at = created_at
     }
 
-    await knex("address").where({ id }).update(updateData);
-    return "Addres yangilandi";
-};
+    await db('address').where({ id }).update(updateData)
+    return 'Addres yangilandi'
+}
 
 export const deleteaddressByid = async (id) => {
-    const existingAddress = await knex("address").where({ id }).first();
+    const existingAddress = await db('address').where({ id }).first()
 
     if (!existingAddress) {
-        return "O'chiriladigan Address topilmadi";
+        return "O'chiriladigan Address topilmadi"
     }
 
-    await knex("address").where({ id }).del();
-    return "Addres o'chirildi";
-};
+    await db('address').where({ id }).del()
+    return "Addres o'chirildi"
+}

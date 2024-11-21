@@ -1,14 +1,29 @@
-import express from "express";
-import morgan from "morgan";
+import express from 'express'
+import morgan from 'morgan'
 
-const app = express();
+import db from './database/index.js'
+import { logger } from './utils/index.js'
+import { up } from '../migrations/20241121191125_migrate_1.js'
+import { userrouter, categoryroutes } from './routes/index.js'
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+const app = express()
 
-app.get("/api/v1/setup", async (req, res) => {
-  res.send("ok");
-});
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan('dev'))
 
-export default app;
+app.use('/users', userrouter)
+app.use('/categories', categoryroutes)
+
+app.get('/api/v1/setup', async (req, res) => {
+    try {
+        await up(db)
+
+        res.send('ok')
+    } catch (error) {
+        logger.error(error)
+        res.status(500).send(error.message)
+    }
+})
+
+export default app

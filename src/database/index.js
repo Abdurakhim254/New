@@ -1,5 +1,5 @@
-import knex from 'knex';
-import { config } from '../config/index.js';
+import knex from 'knex'
+import { config } from '../config/index.js'
 
 const db = knex({
     client: 'pg',
@@ -11,6 +11,6 @@ const db = knex({
         port: config.postgres.port,
     },
     pool: { min: 0, max: 10 }, // Optional: Adjust pool settings
-});
+})
 
-export default db;
+export default db
